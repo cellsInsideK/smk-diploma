@@ -1,5 +1,21 @@
+import { Route, Routes } from 'react-router-dom';
+import { AuthLayout, SignInForm, SignUpForm } from './pages/auth';
+import { Home } from './pages/Home';
 import './globals.css';
+import { Layout } from './pages/Layout';
 
 export const App = () => {
-  return <h1 className=" text-3xl font-bold underline">Hello insta clone for diploma</h1>;
+  return (
+    <main className=" flex h-screen">
+      <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path="/sign-in" element={<SignInForm />} />
+          <Route path="/sign-up" element={<SignUpForm />} />
+        </Route>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
+    </main>
+  );
 };

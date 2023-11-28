@@ -19,6 +19,7 @@ export default {
     extend: {
       colors: {
         'primary-500': '#877EFF',
+        destructive: 'hsl(0 100% 50%)',
         'primary-600': '#5D5FEF',
         'secondary-500': '#FFB620',
         'off-white': '#D0DFFF',
