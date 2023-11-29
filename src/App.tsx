@@ -3,6 +3,7 @@ import { AuthLayout, SignInForm, SignUpForm } from './pages/auth';
 import { Home } from './pages/Home';
 import './globals.css';
 import { Layout } from './pages/Layout';
+import { Toaster } from './components/ui/toaster';
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
+      <Toaster />
     </main>
   );
 };

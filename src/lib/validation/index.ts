@@ -6,3 +6,8 @@ export const signUpSchema = z.object({
   email: z.string().email({ message: 'Неверный email' }),
   password: z.string().min(8, { message: 'Длина пароля должна быть не менее 8 символов' }),
 });
+
+export const signInSchema = z.object({
+  email: z.string().email({ message: 'Неверный email' }),
+  password: z.string().min(8, { message: 'Длина пароля должна быть не менее 8 символов' }),
+});

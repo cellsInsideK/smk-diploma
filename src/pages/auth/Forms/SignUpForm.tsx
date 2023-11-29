@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,13 +13,18 @@ import {
 import { Input } from '@/components/ui/input';
 import { signUpSchema } from '@/lib/validation';
 import { Loader } from '@/components/shared/Loader';
-
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
+import { useCreateUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations';
+import { useUserContext } from '@/context/AuthContext';
 
 export const SignUpForm = () => {
-  const isLoading = false;
+  const { toast } = useToast();
+  const { checkAuthUser } = useUserContext();
+  const { mutateAsync: createUser, isPending: isCreatingUser } = useCreateUserAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
+  const navigate = useNavigate();
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -31,11 +35,27 @@ export const SignUpForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const newUser = createUser(values);
+
+    if (!newUser) return toast({ title: 'Ошибка регистрации. Пожалуйста, попробуйте снова.' });
+
+    const session = await signInAccount({ email: values.email, password: values.password });
+
+    if (!session)
+      return toast({
+        title: 'Ошибка входа. Пожалуйста, попробуйте снова.',
+        variant: 'destructive',
+      });
+
+    const isLoggedIn = await checkAuthUser();
+
+    if (isLoggedIn) {
+      form.reset();
+      navigate('/');
+    } else {
+      return toast({ title: 'Произошла ошибка, попробуйте снова.' });
+    }
   }
 
   return (
@@ -106,7 +126,7 @@ export const SignUpForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isLoading ? (
+            {isCreatingUser ? (
               <div className=" flex-center gap-4">
                 Загрузка <Loader />
               </div>
