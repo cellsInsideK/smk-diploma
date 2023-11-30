@@ -4,12 +4,12 @@ import { Button } from '../ui/button';
 
 interface FileUploaderProps {
   fieldChange: (FILES: File[]) => void;
-  //   mediaUrl: string;
+  mediaUrl: string;
 }
 
-export const FileUploader = ({ fieldChange }: FileUploaderProps) => {
+export const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   const [file, setFile] = useState<File[]>([]);
-  const [fileUrl, setFileUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState(mediaUrl);
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
       setFile(acceptedFiles);
