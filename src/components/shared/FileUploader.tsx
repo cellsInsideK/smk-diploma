@@ -4,11 +4,10 @@ import { Button } from '../ui/button';
 
 interface FileUploaderProps {
   fieldChange: (FILES: File[]) => void;
-  mediaUrl: string;
+  //   mediaUrl: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
+export const FileUploader = ({ fieldChange }: FileUploaderProps) => {
   const [file, setFile] = useState<File[]>([]);
   const [fileUrl, setFileUrl] = useState('');
   const onDrop = useCallback(
