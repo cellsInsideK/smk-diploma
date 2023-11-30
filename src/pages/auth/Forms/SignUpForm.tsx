@@ -36,9 +36,13 @@ export const SignUpForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    const newUser = createUser(values);
+    const newUser = await createUser(values);
 
-    if (!newUser) return toast({ title: 'Ошибка регистрации. Пожалуйста, попробуйте снова.' });
+    if (!newUser)
+      return toast({
+        title: 'Ошибка регистрации. Пожалуйста, попробуйте снова.',
+        variant: 'destructive',
+      });
 
     const session = await signInAccount({ email: values.email, password: values.password });
 
