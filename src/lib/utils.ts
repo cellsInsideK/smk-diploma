@@ -22,7 +22,7 @@ export function formatDateString(dateString: string) {
     minute: '2-digit',
   });
 
-  return `${formattedDate} at ${time}`;
+  return `${formattedDate} в ${time}`;
 }
 
 //
@@ -41,15 +41,15 @@ export const multiFormatDateString = (timestamp: string = ''): string => {
     case Math.floor(diffInDays) >= 30:
       return formatDateString(timestamp);
     case Math.floor(diffInDays) === 1:
-      return `${Math.floor(diffInDays)} day ago`;
+      return `${Math.floor(diffInDays)} день назад`;
     case Math.floor(diffInDays) > 1 && diffInDays < 30:
-      return `${Math.floor(diffInDays)} days ago`;
+      return `${Math.floor(diffInDays)} дней назад`;
     case Math.floor(diffInHours) >= 1:
-      return `${Math.floor(diffInHours)} hours ago`;
+      return `${Math.floor(diffInHours)} часов назад`;
     case Math.floor(diffInMinutes) >= 1:
-      return `${Math.floor(diffInMinutes)} minutes ago`;
+      return `${Math.floor(diffInMinutes)} минут назад`;
     default:
-      return 'Just now';
+      return 'Сейчас';
   }
 };
 

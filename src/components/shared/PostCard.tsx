@@ -25,7 +25,7 @@ export const PostCard = ({ post }: PostCardProps) => {
           </Link>
           <div className="flex flex-col">
             <p className="base-medium lg:body-bold text-light-1">{post.creator.name}</p>
-            <div className="flex-center gap-2 text-light-3">
+            <div className="flex items-center gap-2 text-light-3">
               <p className="subtle-semibold lg:small-regular">
                 {multiFormatDateString(post.$createdAt)}
               </p>
