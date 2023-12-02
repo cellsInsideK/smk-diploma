@@ -18,14 +18,19 @@ import { Models } from 'appwrite';
 import { useUserContext } from '@/context/AuthContext';
 import { useToast } from '../ui/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { useCreatePost } from '@/lib/react-query/queriesAndMutations';
+import { useCreatePost, useDeletePost, useUpdatePost } from '@/lib/react-query/queriesAndMutations';
+import React from 'react';
 
 interface PostFormProps {
   post?: Models.Document;
+  action: 'create' | 'update';
 }
 
-export const PostForm = ({ post }: PostFormProps) => {
-  const { mutateAsync: createPost } = useCreatePost();
+export const PostForm = ({ post, action }: PostFormProps) => {
+  const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } = useUpdatePost();
+  const { mutateAsync: deletePost, isPending: isLoadingDelete } = useDeletePost();
+
   const { user } = useUserContext();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -40,7 +45,27 @@ export const PostForm = ({ post }: PostFormProps) => {
     },
   });
 
+  async function onDelete(e: React.MouseEvent) {
+    e.stopPropagation();
+    const deleted = await deletePost({ postId: post!.$id, imageId: post?.imageId });
+    if (!deleted) toast({ title: 'Ошибка удаления поста', variant: 'destructive' });
+    return navigate('/');
+  }
+
   async function onSubmit(values: z.infer<typeof postSchema>) {
+    if (post && action === 'update') {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageUrl,
+      });
+
+      if (!updatedPost)
+        toast({ title: 'Ошибка обновления, попробуйте еще раз!', variant: 'destructive' });
+
+      return navigate(`/posts/${post.$id}`);
+    }
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -108,7 +133,7 @@ export const PostForm = ({ post }: PostFormProps) => {
                 <Input
                   type="text"
                   className="shad-input"
-                  placeholder="Учёба, спорт, смк"
+                  placeholder="Диплом, крэк, девчули"
                   {...field}
                 />
               </FormControl>
@@ -117,11 +142,20 @@ export const PostForm = ({ post }: PostFormProps) => {
           )}
         />
         <div className=" flex gap-4 items-center justify-end">
-          <Button type="button" className="shad-button_dark_4">
-            Отмена
-          </Button>
-          <Button type="submit" className="shad-button_primary whitespace-nowrap">
-            Отправить
+          {post ? (
+            <Button
+              type="button"
+              className="shad-button_dark_4"
+              disabled={isLoadingCreate || isLoadingUpdate || isLoadingDelete}
+              onClick={onDelete}>
+              Удалить
+            </Button>
+          ) : null}
+          <Button
+            type="submit"
+            className="shad-button_primary whitespace-nowrap"
+            disabled={isLoadingCreate || isLoadingUpdate || isLoadingDelete}>
+            {action === 'create' ? 'Создать' : 'Обновить'}
           </Button>
         </div>
       </form>
