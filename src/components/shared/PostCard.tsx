@@ -26,7 +26,7 @@ export const PostCard = ({ post }: PostCardProps) => {
           </Link>
           <div className="flex flex-col">
             <p className="base-medium lg:body-bold text-light-1">{post.creator.name}</p>
-            <div className="flex items-center gap-2 text-light-3">
+            <div className="flex items-center gap-2 text-light-3 flex-wrap  ">
               <p className="subtle-semibold lg:small-regular">
                 {multiFormatDateString(post.$createdAt)}
               </p>
@@ -43,7 +43,7 @@ export const PostCard = ({ post }: PostCardProps) => {
       <Link to={`/posts/${post.$id}`}>
         <div className="small-medium lg:base-medium py-5">
           <p>{post.caption}</p>
-          <ul className="flex gap-1 mt-2">
+          <ul className="flex gap-1 mt-2 flex-wrap">
             {post.tags.map((tag: string) => (
               <li key={tag} className="text-light-3">
                 #{tag}

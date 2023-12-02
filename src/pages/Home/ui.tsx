@@ -7,7 +7,7 @@ export const Home = () => {
   const { data: posts, isPending } = useGetRecentPosts();
 
   return (
-    <div className=" flex flex-1">
+    <div className=" flex flex-1 w-full">
       <div className="home-container">
         <div className=" home-posts">
           <h2 className="h3-bold md:h2-bold text-left w-full">Лента</h2>
