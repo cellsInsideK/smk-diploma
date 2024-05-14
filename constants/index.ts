@@ -37,8 +37,8 @@ export const profileTabs = [
   { value: 'tagged', label: 'Упомянут', icon: '/assets/tag.svg' },
 ];
 
-// export const communityTabs = [
-//   { value: 'threads', label: 'Обсуждения', icon: '/assets/reply.svg' },
-//   { value: 'members', label: 'Члены', icon: '/assets/members.svg' },
-//   { value: 'requests', label: 'Requests', icon: '/assets/request.svg' },
-// ];
+export const communityTabs = [
+  { value: 'threads', label: 'Обсуждения', icon: '/assets/reply.svg' },
+  { value: 'members', label: 'Члены', icon: '/assets/members.svg' },
+  { value: 'requests', label: 'Requests', icon: '/assets/request.svg' },
+];
