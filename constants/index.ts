@@ -19,15 +19,15 @@ export const sidebarLinks = [
     route: '/create-thread',
     label: 'Создать обсуждение',
   },
-  // {
-  //   imgURL: '/assets/community.svg',
-  //   route: '/communities',
-  //   label: 'Сообщества',
-  // },
   {
     imgURL: '/assets/user.svg',
     route: '/profile',
     label: 'Профиль',
+  },
+  {
+    imgURL: '/assets/policy.svg',
+    route: '/policy',
+    label: 'Политика использования',
   },
 ];
 
